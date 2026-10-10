@@ -12,7 +12,13 @@ sample = pd.read_csv("data/sample_submission.csv")
 X_train = train.drop(columns=["condition", "unit_id"])
 y_train = train["condition"]
 X_test = test.drop(columns=["unit_id"])
+# Verify training and test feature consistency
+assert X_train.columns.tolist() == X_test.columns.tolist(), \
+    "Training and test feature columns do not match!"
 
+# Verify test IDs match the sample submission IDs
+assert test["unit_id"].equals(sample["unit_id"]), \
+    "Test IDs do not match sample submission IDs!"
 numeric_cols = X_train.select_dtypes(include="number").columns.tolist()
 categorical_cols = X_train.select_dtypes(
     include=["object", "category", "string"]
