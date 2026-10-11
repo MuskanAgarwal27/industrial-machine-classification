@@ -17,7 +17,7 @@ from sklearn.metrics import (
     confusion_matrix
 )
 
-os.makedirs("outputs/random_forest", exist_ok=True)
+os.makedirs("outputs/evaluation/random_forest", exist_ok=True)
 
 df = pd.read_csv("data/student_dataset.csv")
 X = df.drop(columns=["condition", "unit_id"])
@@ -68,7 +68,7 @@ print(classification_report(y_val, pred, digits=4, zero_division=0))
 print("Confusion matrix (rows=actual, columns=predicted):")
 print(cm)
 
-with open("outputs/random_forest/metrics.json", "w") as f:
+with open("outputs/evaluation/random_forest/metrics.json", "w") as f:
     json.dump({
         "validation_accuracy": accuracy,
         "validation_macro_f1": macro_f1,
@@ -79,7 +79,7 @@ with open("outputs/random_forest/metrics.json", "w") as f:
 pd.DataFrame(
     cm, index=["actual_0", "actual_1", "actual_2"],
     columns=["predicted_0", "predicted_1", "predicted_2"]
-).to_csv("outputs/random_forest/confusion_matrix.csv")
+).to_csv("outputs/evaluation/random_forest/confusion_matrix.csv")
 
 plt.figure(figsize=(6, 5))
 sns.heatmap(
@@ -90,7 +90,7 @@ plt.xlabel("Predicted condition")
 plt.ylabel("Actual condition")
 plt.title("Random Forest — Confusion Matrix")
 plt.tight_layout()
-plt.savefig("outputs/random_forest/confusion_matrix.png", dpi=150)
+plt.savefig("outputs/evaluation/random_forest/confusion_matrix.png", dpi=150)
 plt.close()
 
-print("\nSaved evaluation files in outputs/random_forest/")
+print("\nSaved evaluation files in outputs/evaluation/random_forest/")

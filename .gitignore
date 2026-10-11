@@ -20,4 +20,4 @@ Thumbs.db
 
 # Generated Kaggle submissions
 submission.csv
-outputs/model_submissions/
+outputs/submissions/

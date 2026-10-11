@@ -72,7 +72,7 @@ models = {
     "naive_bayes": GaussianNB(),
 }
 
-output_dir = "outputs/model_submissions"
+output_dir = "outputs/submissions"
 os.makedirs(output_dir, exist_ok=True)
 
 for name, classifier in models.items():

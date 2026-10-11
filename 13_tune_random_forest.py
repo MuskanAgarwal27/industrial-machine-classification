@@ -90,7 +90,7 @@ assert len(submission) == len(test)
 assert submission["condition"].notna().all()
 assert set(submission["condition"].unique()).issubset(set(y.unique()))
 
-output_dir = "outputs/model_submissions"
+output_dir = "outputs/submissions"
 os.makedirs(output_dir, exist_ok=True)
 
 output_file = f"{output_dir}/submission_random_forest_tuned.csv"

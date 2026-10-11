@@ -56,7 +56,7 @@ Its competition leaderboard score has reached 0.88750.
 - `09_evaluate_random_forest.py`: evaluate Random Forest and produce metrics.
 - `10_naive_bayes.py`: evaluate Gaussian Naive Bayes.
 - `11_compare_models.py`: compare five classification models.
-- `12_make_model_submissions.py`: generate one submission per model.
+- `12_make_model_submissions.py`: generate separate submissions for the supported models.
 - `13_tune_random_forest.py`: tune Random Forest hyperparameters.
 - `PROJECT_REPORT.md`: project report.
 - `requirements.txt`: Python dependencies.
@@ -64,10 +64,9 @@ Its competition leaderboard score has reached 0.88750.
 ## Output folders
 
 - `outputs/eda/`: exploratory analysis plots and tables.
-- `outputs/random_forest/`: Random Forest evaluation results.
+- `outputs/evaluation/random_forest/`: Random Forest evaluation metrics and confusion matrices.
 - `outputs/model_comparison/`: model comparison table.
-- `outputs/model_submissions/`: locally generated Kaggle submission files;
-  excluded from Git.
+- `outputs/submissions/`: locally generated submission CSVs for each model, including tuned variants; excluded from Git.
 
 ## Setup
 
@@ -98,6 +97,11 @@ Generated CSVs contain the competition's required `unit_id` and
 before uploading it to Kaggle.
 
 The prediction scripts do not upload anything to Kaggle automatically.
+
+Each submission is saved as a separate CSV in `outputs/submissions/`.
+Use filenames to identify the model, and upload only the version you intend
+to evaluate. The root-level `submission.csv` is generated separately by
+`08_make_predictions.py` using the original Random Forest model.
 
 ## Limitations
 
