@@ -1,0 +1,14 @@
+,train_missing,train_missing_pct,test_missing,test_missing_pct
+unit_id,0,0.0,0,0.0
+unit_type,22,0.14,11,0.27
+ambient_temp,47,0.29,10,0.25
+process_temp,45,0.28,13,0.32
+coolant_flow,61,0.38,12,0.3
+shaft_speed,32,0.2,8,0.2
+drive_torque,36,0.22,12,0.3
+power_load,25,0.16,8,0.2
+component_wear,56,0.35,15,0.38
+thermal_stress,50,0.31,16,0.4
+mechanical_load,45,0.28,3,0.08
+vibration_index,74,0.46,15,0.38
+condition,0,0.0,4000,100.0
