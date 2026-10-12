@@ -1,109 +1,74 @@
 # Industrial Machine Condition Classification
 
-## Overview
+## 1. Introduction
 
-A supervised machine learning project that predicts industrial machine
-condition classes from sensor measurements.
+This project focuses on classifying industrial machine conditions using sensor measurements and machine-related features. It is a multiclass classification problem with three target classes:
 
-Random Forest is the selected final model to comply with the course model
-restrictions. Other algorithms are used for comparison and experimentation.
+- **0 — Normal**
+- **1 — Thermal Failure**
+- **2 — Mechanical Failure**
 
-The project explores five classification algorithms, compares their
-validation performance, and generates Kaggle submission files.
+The objective is to develop and compare machine learning models that can accurately identify the operating condition of a machine.
 
-## Dataset
+## 2. Exploratory Data Analysis (EDA)
 
-- Training data: `data/student_dataset.csv` (16,000 rows)
-- Test data: `data/test.csv` (4,000 rows)
-- Submission template: `data/sample_submission.csv`
-- Target: `condition`
-- Identifier: `unit_id`
+The dataset (`student.csv`) contains 11 sensor features, `unit_type`, `unit_id`, and the target variable `condition`.
 
-The identifier is retained in submission files but excluded from model
-features.
+The EDA phase involved:
 
-## Workflow
+- Examining the dataset structure, feature types, and summary statistics.
+- Investigating the distribution of the target classes.
+- Inspecting sensor feature distributions and potential outliers.
+- Checking for missing values.
+- Exploring relationships between sensor measurements and machine conditions.
 
-1. Explore distributions, missing values, correlations and outliers.
-2. Validate dataset consistency.
-3. Impute missing numerical and categorical values.
-4. One-hot encode categorical features.
-5. Train and compare classification models.
-6. Evaluate models on a stratified validation split.
-7. Tune promising models and generate predictions for the test set.
+These analyses helped understand the dataset and identify relevant preprocessing requirements before model training.
 
-## Models compared
+## 3. Preprocessing
 
-| Model | Validation accuracy | Macro F1 |
-|---|---:|---:|
-| Random Forest | 0.8872 | 0.8762 |
-| HistGradientBoosting | 0.8866 | 0.8757 |
-| Extra Trees | 0.8781 | 0.8643 |
-| Logistic Regression | 0.8225 | 0.8043 |
-| Gaussian Naive Bayes | 0.7650 | 0.7351 |
+The preprocessing workflow focused on preparing the features for classification:
 
-The comparison uses an 80/20 stratified split with random state 42.
-Scores are local validation results, not leaderboard scores.
+- Handling missing values where required.
+- Encoding categorical features such as `unit_type`.
+- Excluding `unit_id` as an identifier rather than a predictive feature.
+- Separating input features and the target variable.
+- Using training and validation data to evaluate model performance and guide model selection.
 
-Random Forest is the current leading model by validation Macro F1.
-Its competition leaderboard score has reached 0.88750.
+## 4. Models Experimented With
 
-## Main scripts
+The following models were evaluated progressively, starting with a simple probabilistic baseline and moving towards more flexible classification models.
 
-- `01_eda.py`: exploratory data analysis.
-- `07_data_checks.py`: dataset consistency checks.
-- `08_make_predictions.py`: generate the original Random Forest submission.
-- `09_evaluate_random_forest.py`: evaluate Random Forest and produce metrics.
-- `10_naive_bayes.py`: evaluate Gaussian Naive Bayes.
-- `11_compare_models.py`: compare five classification models.
-- `12_make_model_submissions.py`: generate one submission per model.
-- `13_tune_random_forest.py`: tune Random Forest hyperparameters.
-- `PROJECT_REPORT.md`: project report.
-- `requirements.txt`: Python dependencies.
+1. **Gaussian Naive Bayes — Baseline:** Established an initial performance benchmark using Gaussian feature distributions.
+2. **Tuned Gaussian Naive Bayes:** Adjusted `var_smoothing` to improve classification performance.
+3. **Tuned Logistic Regression:** Evaluated a linear classification approach with hyperparameter tuning.
+4. **Tuned Decision Tree:** Used a tree-based model to capture nonlinear relationships and tuned its hyperparameters.
+5. **Refined Decision Tree:** Further refined the tree configuration to improve validation performance.
+6. **Random Forest — Team Comparison:** Included as a comparison result obtained by a teammate; it was not part of my individual model experimentation.
 
-## Output folders
+## 5. Model Performance
 
-- `outputs/eda/`: exploratory analysis plots and tables.
-- `outputs/random_forest/`: Random Forest evaluation results.
-- `outputs/model_comparison/`: model comparison table.
-- `outputs/model_submissions/`: locally generated Kaggle submission files;
-  excluded from Git.
+The models were compared using validation accuracy. The results are summarized below.
 
-## Setup
+| Model | Accuracy |
+|---|---:|
+| Gaussian Naive Bayes — Baseline | 76.56% |
+| Tuned Gaussian Naive Bayes | 77.53% |
+| Tuned Logistic Regression | 82.16% |
+| Tuned Decision Tree | 84.66% |
+| Refined Decision Tree | 85.75% |
+| Random Forest — Teammate's Result | 88.41% |
 
-From the project root:
+Among the models experimented with individually, the **Refined Decision Tree achieved the highest validation accuracy of 85.75%**. The Random Forest result of 88.41% is included for team-level comparison.
 
-    python -m venv .venv
-    source .venv/bin/activate
-    python -m pip install -r requirements.txt
+## 6. Conclusion
 
-## Run the workflow
+The experiments show progressive improvements from the initial Naive Bayes baseline to the refined Decision Tree model. The results highlight the importance of model selection and hyperparameter tuning in industrial machine condition classification.
 
-    python 07_data_checks.py
-    python 01_eda.py
-    python 09_evaluate_random_forest.py
-    python 11_compare_models.py
-    python 12_make_model_submissions.py
 
-For hyperparameter tuning:
+## 7. Tools and Libraries
 
-    python 13_tune_random_forest.py
-
-Some scripts train multiple models and may take several minutes.
-
-## Submission format
-
-Generated CSVs contain the competition's required `unit_id` and
-`condition` columns. Inspect the sample submission and verify the output
-before uploading it to Kaggle.
-
-The prediction scripts do not upload anything to Kaggle automatically.
-
-## Limitations
-
-The test labels are unavailable locally, so local test accuracy cannot
-be measured. Validation and leaderboard results may differ.
-
-The tuned Random Forest's cross-validation score is stored separately
-from the holdout comparison scores and should not be directly compared
-as though both came from the same split.
+- Python
+- Jupyter Notebook / Google Colab
+- pandas and NumPy
+- scikit-learn
+- Matplotlib and Seaborn, if used for EDA visualizations
