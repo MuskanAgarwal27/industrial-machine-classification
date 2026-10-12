@@ -1,9 +1,0 @@
-Rank,Model,Version,Accuracy,Macro_F1
-1,HistGradientBoosting,Tuned,0.888125,0.877019
-2,Random Forest,Baseline,0.886875,0.875817
-3,HistGradientBoosting,Baseline,0.8865625,0.875667
-4,Random Forest,Tuned for accuracy,0.884062,0.872303
-5,Random Forest,Tuned for Macro F1,0.882812,0.87184
-6,Extra Trees,Baseline,0.878125,0.86429
-7,Logistic Regression,Baseline,0.8225,0.804281
-8,Gaussian Naive Bayes,Baseline,0.765,0.735121

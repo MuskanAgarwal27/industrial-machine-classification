@@ -1,2 +1,0 @@
-cv_macro_f1,validation_accuracy,validation_macro_f1,best_params
-0.8652417851186169,0.8828125,0.8718408853664759,"{'model__n_estimators': 300, 'model__min_samples_split': 5, 'model__min_samples_leaf': 3, 'model__max_features': 0.5, 'model__max_depth': 30, 'model__class_weight': 'balanced_subsample'}"

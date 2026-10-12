@@ -1,4 +1,0 @@
-class_weight,accuracy,macro_f1
-None,0.886875,0.8758171777065747
-balanced_subsample,0.885,0.8740383243223854
-balanced,0.8778125,0.8676397901091177

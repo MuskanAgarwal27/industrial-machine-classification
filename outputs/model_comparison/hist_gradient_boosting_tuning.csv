@@ -1,2 +1,0 @@
-model,cv_macro_f1,validation_accuracy,validation_macro_f1,best_params
-HistGradientBoosting tuned,0.8735624615995808,0.888125,0.8770192409813472,"{'model__min_samples_leaf': 20, 'model__max_leaf_nodes': 15, 'model__max_iter': 300, 'model__max_depth': 10, 'model__learning_rate': 0.03, 'model__l2_regularization': 0.1}"
