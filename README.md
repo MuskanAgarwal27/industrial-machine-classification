@@ -1,74 +1,93 @@
 # Industrial Machine Condition Classification
 
-## 1. Introduction
+## 1. Problem and Dataset
 
-This project focuses on classifying industrial machine conditions using sensor measurements and machine-related features. It is a multiclass classification problem with three target classes:
+The objective of this project is to classify industrial machine operating conditions using sensor measurements, inspired by predictive maintenance applications.
 
-- **0 — Normal**
-- **1 — Thermal Failure**
-- **2 — Mechanical Failure**
+This is a three-class classification problem:
 
-The objective is to develop and compare machine learning models that can accurately identify the operating condition of a machine.
+- **Class 0 — Normal**
+- **Class 1 — Thermal Failure**
+- **Class 2 — Mechanical Failure**
+
+The dataset consists of `student.csv` (training data) and a separate test dataset.
+
+| Property | Training | Test |
+|---|---:|---:|
+| Samples | 16,000 | 4,000 |
+| Columns | 13 | 12 |
+| Target (`condition`) | Available | Not available |
+
+The dataset includes ten numerical sensor features, one categorical feature (`unit_type`), and a machine identifier (`unit_id`). The identifier is excluded from model training.
 
 ## 2. Exploratory Data Analysis (EDA)
 
-The dataset (`student.csv`) contains 11 sensor features, `unit_type`, `unit_id`, and the target variable `condition`.
+EDA examined the target distribution, missing values, sensor feature distributions, correlations, and relationships between sensor measurements and machine conditions.
 
-The EDA phase involved:
-
-- Examining the dataset structure, feature types, and summary statistics.
-- Investigating the distribution of the target classes.
-- Inspecting sensor feature distributions and potential outliers.
-- Checking for missing values.
-- Exploring relationships between sensor measurements and machine conditions.
-
-These analyses helped understand the dataset and identify relevant preprocessing requirements before model training.
+Key observations:
+- The Normal class accounts for 50% of samples, while each failure class accounts for 25%.
+- Missing values occur in numerical and categorical features but affect less than 0.5% of observations per feature.
+- Thermal measurements help distinguish thermal failures, while wear, vibration, and mechanical load provide information about mechanical failures.
+- Several operating and thermal measurements are correlated.
 
 ## 3. Preprocessing
 
-The preprocessing workflow focused on preparing the features for classification:
+- Excluded `unit_id` from the predictor set.
+- Imputed numerical missing values using the training-set median.
+- Imputed missing `unit_type` values using the most frequent category.
+- Applied one-hot encoding to `unit_type`.
+- Used an 80:20 stratified train-validation split with `random_state=42`.
+- Used scikit-learn pipelines and a `ColumnTransformer` to maintain consistent preprocessing.
 
-- Handling missing values where required.
-- Encoding categorical features such as `unit_type`.
-- Excluding `unit_id` as an identifier rather than a predictive feature.
-- Separating input features and the target variable.
-- Using training and validation data to evaluate model performance and guide model selection.
+## 4. Models and Experiments
 
-## 4. Models Experimented With
+The project is organized into two notebooks:
 
-The following models were evaluated progressively, starting with a simple probabilistic baseline and moving towards more flexible classification models.
+### `industrial_machine_classification.ipynb`
+Contains dataset exploration, EDA, preprocessing, and initial classification experiments:
+- Gaussian Naive Bayes
+- Logistic Regression
+- Decision Tree
+- Random Forest
 
-1. **Gaussian Naive Bayes — Baseline:** Established an initial performance benchmark using Gaussian feature distributions.
-2. **Tuned Gaussian Naive Bayes:** Adjusted `var_smoothing` to improve classification performance.
-3. **Tuned Logistic Regression:** Evaluated a linear classification approach with hyperparameter tuning.
-4. **Tuned Decision Tree:** Used a tree-based model to capture nonlinear relationships and tuned its hyperparameters.
-5. **Refined Decision Tree:** Further refined the tree configuration to improve validation performance.
-6. **Random Forest — Team Comparison:** Included as a comparison result obtained by a teammate; it was not part of my individual model experimentation.
+### `boosting.ipynb`
+Contains experiments with boosting-based models, hyperparameter tuning, and ensemble methods:
+- XGBoost
+- CatBoost
+- LightGBM
+- XGBoost and CatBoost ensemble
 
 ## 5. Model Performance
 
-The models were compared using validation accuracy. The results are summarized below.
+The following results were obtained on the validation dataset.
 
-| Model | Accuracy |
-|---|---:|
-| Gaussian Naive Bayes — Baseline | 76.56% |
-| Tuned Gaussian Naive Bayes | 77.53% |
-| Tuned Logistic Regression | 82.16% |
-| Tuned Decision Tree | 84.66% |
-| Refined Decision Tree | 85.75% |
-| Random Forest — Teammate's Result | 88.41% |
+| Model | Validation Accuracy | Macro F1-score |
+|---|---:|---:|
+| Gaussian Naive Bayes (Baseline) | 76.50% | 73.57% |
+| Gaussian Naive Bayes (Tuned) | 77.53% | 74.41% |
+| Logistic Regression (Tuned) | 82.16% | 80.35% |
+| Decision Tree (Tuned) | 84.66% | 82.81% |
+| Decision Tree (Refined) | 85.75% | 84.06% |
+| Random Forest (Tuned) | 88.41% | 87.26% |
+| LightGBM | 88.78% | 87.72% |
+| CatBoost | 89.12% | 88.10% |
+| XGBoost (Tuned) | 89.22% | 88.16% |
+| XGBoost + CatBoost Ensemble | 89.31% | 88.31% |
+| **XGBoost (Base)** | **89.34%** | **88.32%** |
 
-Among the models experimented with individually, the **Refined Decision Tree achieved the highest validation accuracy of 85.75%**. The Random Forest result of 88.41% is included for team-level comparison.
+Among the reported experiments, **XGBoost (Base)** achieved the highest validation accuracy and macro F1-score.
 
-## 6. Conclusion
-
-The experiments show progressive improvements from the initial Naive Bayes baseline to the refined Decision Tree model. The results highlight the importance of model selection and hyperparameter tuning in industrial machine condition classification.
-
-
-## 7. Tools and Libraries
+## 6. Technologies Used
 
 - Python
-- Jupyter Notebook / Google Colab
+- Jupyter Notebook
 - pandas and NumPy
 - scikit-learn
-- Matplotlib and Seaborn, if used for EDA visualizations
+- XGBoost
+- CatBoost
+- LightGBM
+- Matplotlib and Seaborn
+
+## 7. Test Predictions
+
+The trained models can be used to generate predictions for the 4,000 unseen test samples and save the results as CSV files for submission.
