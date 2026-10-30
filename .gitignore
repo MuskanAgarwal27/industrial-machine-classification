@@ -21,3 +21,4 @@ Thumbs.db
 # Generated Kaggle submissions
 submission.csv
 outputs/submissions/
+oof_*.npy
